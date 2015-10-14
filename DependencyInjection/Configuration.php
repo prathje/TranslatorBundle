@@ -24,6 +24,7 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->booleanNode('include_vendor_assets')->defaultTrue()->end()
                 ->booleanNode('enabled')->defaultTrue()->end()
+                ->variableNode('spanning_element')->end()
             ->end()
         ;
 

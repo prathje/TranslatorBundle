@@ -20,6 +20,8 @@ class KnpTranslatorExtension extends Extension
             return;
         }
 
+        $container->setParameter('knp_translator.templating.helper.spanning_element', $config['spanning_element']);
+
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('translation.xml');
         $loader->load('controller.xml');

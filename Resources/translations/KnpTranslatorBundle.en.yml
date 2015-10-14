@@ -1,4 +1,4 @@
-knplabs_translator:
-  title: Translator
-  list: List of translations
-  edit: Edit a translation
+knp_translator:
+    title: Translator
+    list: 'List of translationsasd'
+    edit: 'Edit a translation'

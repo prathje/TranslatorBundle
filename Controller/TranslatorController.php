@@ -31,24 +31,34 @@ class TranslatorController
 
     public function getAction($id, $domain, $locale)
     {
-        $trans = $this->translator->trans($id, array(), $domain, $locale);
+        $trans = array(
+            'id' => $id,
+            'domain' => $domain,
+            'locale',
+            'translation' => $this->translator->trans($id, array(), $domain, $locale)
+        );
 
-        return new Response($trans);
+        return new Response(json_encode($trans));
     }
 
     public function putAction(Request $request)
     {
-        $translations = $request->request->get('trans');
-
-        foreach($translations as $trans) {
-            $id     = @$trans['id'];
-            $domain = @$trans['domain'];
-            $locale = @$trans['locale'];
-            $value  = @$trans['value'];
-
-            $this->writer->write($id, $value, $domain, $locale);
+        $id = $request->get('id');
+        $value = $request->get('value');
+        if($value == "") {
+            $value = "_";
         }
+        $domain = $request->get('domain');
+        $locale = $request->get('locale');
+        $this->writer->write($id, $value, $domain, $locale);
 
-        return new Response;
+        $translation = array(
+            'id' => $id,
+            'domain' => $domain,
+            'locale' => $locale,
+            'translation' => $this->translator->trans($id, array(), $domain, $locale)
+        );
+
+        return new Response(json_encode($translation));
     }
 }

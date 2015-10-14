@@ -1,13 +1,17 @@
 {
     "name":         "docteurklein/translator-bundle",
     "description":  "This bundle's purpose is to provide an interface for edition, addition and deletion of translations messages.",
-    "keywords":     ["translator"],
+    "keywords":     ["translator", "translation", "translations"],
     "type":         "symfony-bundle",
     "license":      "MIT",
     "authors":      [
         {
             "name":     "docteurklein",
             "homepage": "https://github.com/docteurklein"
+        },
+        {
+            "name":     "Patrick Rathje",
+            "homepage": "https://github.com/prathje"
         }
     ],
     "require": {

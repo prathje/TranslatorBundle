@@ -42,11 +42,11 @@ Install & setup the bundle
 
     // app/config/routing.yml
 
-    knplabs_translator_admin:
+    knp_translator_admin:
         resource: @KnpTranslatorBundle/Resources/config/routing/edition.yml
             prefix:   /trans/admin
 
-    knplabs_translator:
+    knp_translator:
         resource: @KnpTranslatorBundle/Resources/config/routing/routing.yml
             prefix:   /trans
 
@@ -56,9 +56,9 @@ These route files provide the following routes:
 
     [router] Current routes
     Name                     Method  Pattern
-    knplabs_translator_list  GET    /trans/admin/list
-    knplabs_translator_get   GET    /trans/{id}/{domain}/{locale}
-    knplabs_translator_put   PUT    /trans/
+    knp_translator_list  GET    /trans/admin/list
+    knp_translator_get   GET    /trans/{id}/{domain}/{locale}
+    knp_translator_put   PUT    /trans/
 
 
 
@@ -87,9 +87,15 @@ You can decide wheter or not it will be included automatically.
 
 ``` yaml
 
-    knplabs_translator:
+    knp_translator:
         include_vendor_assets: false # defaults to true
-
+        spanning_element:
+            keys:
+                id: data-translation-id
+                locale: data-translation-locale
+                domain: data-translation-domain
+                type: data-translation-type
+            tag: span
 ```
 
 Services

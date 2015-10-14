@@ -13,6 +13,13 @@ use Symfony\Bundle\FrameworkBundle\Templating\Helper\TranslatorHelper as BaseTra
  */
 class TranslatorHelper extends BaseTranslatorHelper
 {
+    protected $config;
+
+    public function __construct(TranslatorInterface $translator, $config) {
+        parent::__construct($translator);
+        $this->config = $config;
+    }
+
     /**
      * @see TranslatorInterface::trans()
      */
@@ -22,9 +29,10 @@ class TranslatorHelper extends BaseTranslatorHelper
             $locale = $this->translator->getLocale();
         }
 
+
         $trans = parent::trans($id, $parameters, $domain, $locale);
 
-        return $this->wrap($id, $trans, $domain, $locale);
+        return $this->wrap($id, $trans, 'trans', $domain, $locale);
     }
 
     /**
@@ -38,19 +46,33 @@ class TranslatorHelper extends BaseTranslatorHelper
 
         $trans = parent::transChoice($id, $number, $parameters, $domain, $locale);
 
-        return $this->wrap($id, $trans, $domain, $locale);
+        return $this->wrap($id, $trans, 'trans_choice', $domain, $locale);
     }
 
     /**
-     * Wraps a translated value with [T id="%s" domain="%s" locale="%s"]%s[/T]
+     * Wraps a translated value with e.g. <span data-translation='test_translation_id'> This is a test translation </span>
      * Used to detect in-line edition of translations
      *
      * @return string
      */
-    public function wrap($id, $trans, $domain = 'messages', $locale = null)
+    public function wrap($id, $trans, $type, $domain = 'messages', $locale = null)
     {
-        $startTag = sprintf('[T id="%s" domain="%s" locale="%s"]', $id, $domain, $locale);
+        $attr = $this->config['attr'];
 
-        return sprintf('%s%s%s', $startTag, $trans, '[/T]');
+        if (!isset($locale)) {
+            $locale = $this->translator->getLocale();
+        }
+
+        $attr[$this->config['keys']['id']] = $id;
+        $attr[$this->config['keys']['domain']] = $domain;
+        $attr[$this->config['keys']['locale']] = $locale;
+        $attr[$this->config['keys']['type']] = $type;
+
+        $attributes = "";
+        foreach($attr as $key => $value) {
+            $attributes .= " ". $key . "=" . "\"" . $value . "\"";
+        }
+
+        return new \Twig_Markup(sprintf('<%s %s>%s</%s>', $this->config['tag'], $attributes, $trans, $this->config['tag']), 'utf-8');
     }
 }

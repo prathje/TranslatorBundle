@@ -22,12 +22,14 @@
         <service id="knp_translator.response.listener.assets_injecter" class="Knp\Bundle\TranslatorBundle\Listener\ResponseListener" scope="request">
             <argument type="service" id="templating.helper.assets" />
             <argument type="service" id="router" />
+            <argument>%knp_translator.templating.helper.spanning_element%</argument>
             <tag name="kernel.event_listener" event="kernel.response" />
         </service>
 
         <service id="knp_translator.templating.helper.translator" class="Knp\Bundle\TranslatorBundle\Templating\Helper\TranslatorHelper">
             <tag name="templating.helper" alias="translator" />
             <argument type="service" id="translator" />
+            <argument>%knp_translator.templating.helper.spanning_element%</argument>
         </service>
 
         <service id="knp_translator.twig.extension.trans" class="Knp\Bundle\TranslatorBundle\Templating\Twig\TranslationExtension" public="false">

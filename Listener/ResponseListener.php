@@ -28,13 +28,15 @@ use Symfony\Bundle\FrameworkBundle\Templating\Helper\AssetsHelper;
  */
 class ResponseListener
 {
-    private $assetHelper;
-    private $router;
+    protected $assetHelper;
+    protected $routeprotected;
+    protected $spanningElConfig;
 
-    public function __construct(AssetsHelper $assetHelper, RouterInterface $router)
+    public function __construct(AssetsHelper $assetHelper, RouterInterface $router, $spanningElConfig)
     {
         $this->assetHelper = $assetHelper;
         $this->router = $router;
+        $this->spanningElConfig = $spanningElConfig;
     }
 
     public function onKernelResponse(FilterResponseEvent $event)
@@ -75,7 +77,7 @@ class ResponseListener
         if (false !== $pos = $posrFunction($content, '</body>')) {
 
             $scripts = '';
-            $url = $this->assetHelper->getUrl('bundles/knptranslator/js/ext-core.js');
+            $url = $this->assetHelper->getUrl('bundles/knptranslator/js/jquery-2.1.4.min.js');
             $scripts = sprintf('<script type="text/javascript" src="%s"></script>', $url)."\n";
 
             $url = $this->assetHelper->getUrl('bundles/knptranslator/js/translator.js');
@@ -84,15 +86,13 @@ class ResponseListener
 
             $script= <<<HTML
 <script type="text/javascript">
-    var knpTranslator;
-    Ext.onReady(function() {
-        knpTranslator = new Knp.Translator({
-            url: '%s'
-        });
+    var knpTranslator = null;
+    $(function() {
+        knpTranslator = new Knp.Translator($, '%s', '%s');
     });
 </script>
 HTML;
-            $scripts .= sprintf($script, $this->router->generate('knplabs_translator_put'))."\n";
+            $scripts .= sprintf($script, $this->router->generate('knp_translator_put'), json_encode($this->spanningElConfig))."\n";
 
             $content = $substrFunction($content, 0, $pos).$scripts.$substrFunction($content, $pos);
             $response->setContent($content);
