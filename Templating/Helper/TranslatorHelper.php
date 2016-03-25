@@ -57,7 +57,7 @@ class TranslatorHelper extends BaseTranslatorHelper
      */
     public function wrap($id, $trans, $type, $domain = 'messages', $locale = null)
     {
-        $attr = $this->config['attr'];
+        $attr = isset($this->config['attr'])? $this->config['attr'] : array();
 
         if (!isset($locale)) {
             $locale = $this->translator->getLocale();

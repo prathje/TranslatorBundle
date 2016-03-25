@@ -3,6 +3,12 @@
 This bundle's purpose is to provide an interface for edition, addition and deletion
 of translations messages.
 
+It enables super awesome inline translation-editing in the current request locale.
+
+Works well with buttons, labels etc, but got problems with placeholders (as it is using a span element for selection).
+
+Translations with multiple choice or variable are also not supported.
+
 Currently supported formats:
 
 *   YAML
@@ -96,6 +102,8 @@ You can decide wheter or not it will be included automatically.
                 domain: data-translation-domain
                 type: data-translation-type
             tag: span
+            #attr: define additional attributes like class
+            #    
 ```
 
 Services

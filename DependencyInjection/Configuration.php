@@ -24,7 +24,15 @@ class Configuration implements ConfigurationInterface
             ->children()
                 ->booleanNode('include_vendor_assets')->defaultTrue()->end()
                 ->booleanNode('enabled')->defaultTrue()->end()
-                ->variableNode('spanning_element')->end()
+                ->variableNode('spanning_element')->defaultValue(array(
+                'attr' => array(),
+                'keys' => array(
+                    'id' => 'data-translation-id',
+                    'locale' => 'data-translation-locale',
+                    'domain' => 'data-translation-domain',
+                    'type' => 'data-translation-type'
+                ),
+                'tag' => 'span'))->end()
             ->end()
         ;
 

@@ -11,7 +11,7 @@
 
 namespace Knp\Bundle\TranslatorBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Bundle\TranslatorBundle\Translation\Writer;
 use Symfony\Component\Translation\TranslatorInterface;
@@ -38,13 +38,15 @@ class TranslatorController
             'translation' => $this->translator->trans($id, array(), $domain, $locale)
         );
 
-        return new Response(json_encode($trans));
+        return new JsonResponse($trans);
     }
 
     public function putAction(Request $request)
     {
         $id = $request->get('id');
         $value = $request->get('value');
+
+        //do not allow empty translations, as one cannot edit them again
         if($value == "") {
             $value = "_";
         }
@@ -59,6 +61,6 @@ class TranslatorController
             'translation' => $this->translator->trans($id, array(), $domain, $locale)
         );
 
-        return new Response(json_encode($translation));
+        return new JsonResponse($translation);
     }
 }
